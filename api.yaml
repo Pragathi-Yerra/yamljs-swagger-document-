@@ -1,0 +1,202 @@
+swagger: "2.0"
+info:
+  title: This is my Swagger UI Docs
+  description : This is my company documentation made by me
+  version: 1.0
+  contact:
+    email: yss.pragathi@gmail.com
+  license: 
+    name: Apache 2.0
+    url: "http://apache.org/"
+  servers:
+    -url: "http://localhost:8000/"
+    description: This is my local server
+    -url: "http://company.com/"
+    description: This is my company server
+
+schemes: [http,https]
+components:
+    schemas:
+      User:
+        type: object
+        properties:
+          id:
+            type: integer
+            required: true
+          name:
+            type: string
+
+paths:
+#returns a string
+  /string:
+    get:
+      summary: Returns a string
+      description: It is just returning a fake string
+      responses:
+        200:
+          description: Success
+          schema: 
+            type: string
+            example : A fake string
+        400:
+          description: User error
+        500:
+          description: Internal server error
+
+#returns an object
+  /user:
+      get:
+        summary: Returns a single object
+        description: It is just returning a given object
+        responses:
+          200:
+            description: Success
+            schema: 
+              type: object
+              properties: 
+                id: 
+                  type: integer
+                  example: 0
+                name:
+                  type: string
+                  example: "sony"
+          400:
+            description: User error
+          500:
+            description: Internal server error
+
+#returns an array of users
+  /users:
+      get:
+        summary: Returns an array of users
+        description: It is just returning an array
+        responses:
+          200:
+            description: Success
+            schema: 
+              type: array
+              items: 
+                type: object
+                properties: 
+                  id: 
+                    type: 
+                    example: 0
+                  name:
+                    type: string
+                    example: "sony"
+          400:
+            description: User error
+          500:
+            description: Internal server error
+
+#sending/reading data through path (getbyid)
+  /users/{id}:
+      get:
+        summary: Returns an array of users
+        description: It is just returning an array
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: integer
+        responses:
+          200:
+            description: Success
+            schema: 
+              type: object
+              properties: 
+                id: 
+                  type: integer
+                  example: 0
+                name:
+                  type: string
+                  example: "sony"
+          400:
+            description: User error
+          500:
+            description: Internal server error
+
+# #post json/body
+#   /create:
+#     post:
+#       summary: Posting the data
+#       produces:
+#         - application/json
+#       consumes:
+#         - application/json
+#       parameters:
+#       - in: body
+#         name: user
+#         schema:
+#           type: object
+#           properties:
+#             id:
+#               type: integer
+#             name:
+#               type: string
+#       responses:
+#         200:
+#           description: Ok
+
+#Define with id(uses schema)
+  /create:
+    post:
+      summary: Posting the data
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+      - in: body
+        name: user
+        schema:
+          $ref: "#/components/schemas/User"
+      responses:
+        200:
+          description: Ok
+
+#QUERIES
+#example https://www.youtube.com/watch?v=EnMQm365t_s&t=1209s
+#v= t=
+# using enum is best it shows avaialble 1,2,3 in ui
+  /usersQuery:
+    get:
+      parameters:
+      - in: query
+        name: id
+        type: integer
+        enum: [1,2,3] 
+      - in: query
+        name: name
+        type: string
+
+      responses:
+        200:
+          description: OK
+
+#file Upload
+  /upload:
+    post:
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: file
+          type: file
+          required: true
+          description: File Upload
+      responses:
+        200:
+          description: OK
+    
+
+
+
+
+  
+
+
+
+
+
